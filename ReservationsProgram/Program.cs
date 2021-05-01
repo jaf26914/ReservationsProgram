@@ -15,233 +15,162 @@ namespace ReservationsProgram
         {
 
 
-            
+
             WriteLine("********Welcome to the Hotel Reservation System********");
             WriteLine("=======================================================\n");
-            WriteLine("Please Select a User: \n");
-            WriteLine("1. Front Desk \n2. Admin");
+
             List<Reservation> reservation = new List<Reservation>();
-            int userType = Convert.ToInt32(ReadLine());
 
-            if (userType == 1)
+            char menu = 'y';
+            while (menu == 'y')
             {
-                WriteLine("Password: \n");
-                string fdPassword = ReadLine();
-                if (fdPassword == "You123")
+                WriteLine("Please Select a User: \n");
+                WriteLine("1. Front Desk \n2. Admin");
+                int userType = Convert.ToInt32(ReadLine());
+
+                if (userType == 1)
                 {
-                    //FrontDesk
-                    //char moreReservs = 'y';
-                    int counter = 0;
+                    WriteLine("Password: \n");
+                    string fdPassword = ReadLine();
 
-                    WriteLine("What would you like to do?");
-                    WriteLine("1. Create a new reservation\n2. View current reservations");
-                    int fdChoice = Convert.ToInt32(ReadLine());
-                    if (fdChoice == 1)
+                    if (fdPassword == "You123")
                     {
-                        char moreReservs = 'y';
-                        while (moreReservs == 'y')
+                        WriteLine("What would you like to do?");
+                        WriteLine("1. Create a new reservation\n2. View current reservations");
+                        int fdChoice = Convert.ToInt32(ReadLine());
+
+                        if (fdChoice == 1)
                         {
-                            //The example line in the video was
-                            //WriteLine("Let's get the items for item {0}"), counter ++1
-                            WriteLine("Please make your reservation selection", counter + 1); //increase the counter by one on this loop
+                            char moreReservs = 'y';
+                            while (moreReservs == 'y')
+                            {
+                                WriteLine("Please enter the reservation information as prompted.");
+                                MakeReservation(ref reservation);
 
-                            //create the method call for collect order - in this case for choosing room, possibly making reservation - double check this!!
-                            MakeReservation(ref reservation);
+                                WriteLine("Do you want to create another reservation? y/n");
+                                moreReservs = Convert.ToChar(ReadLine());
+                            }
 
-                            WriteLine("Would you like to make another reservation? y/n");
-                            moreReservs = Convert.ToChar(ReadLine());
-
-                        }
-
-                    }
-                    else if (fdChoice == 2)
-                    {
-                        char moreViews = 'y';
-                        while (moreViews == 'y')
-                        {
+                            WriteLine("Reservation entry complete. Here is a list of current reservations: ");
                             WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}", "Name", "Subtotal", "Tax", "Grand Total");
+
                             foreach (Reservation r in reservation)
                             {
-                                counter = 0;
-                                WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}{4,-20}", counter, r.name, r.subTotal.ToString("C"), r.taxRate.ToString("C"), r.totalCost.ToString("C"));
-                                counter++;
+                                WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}", r.name, r.subTotal.ToString("C"), r.taxRate.ToString("C"), r.totalCost.ToString("C"));
+
                             }
-                            WriteLine("Which reservation would you like to view?");
-                            //output the selected reservation here
+                        }//end if fdChoice==1
+                        else if (fdChoice == 2)
+                        {
+                            WriteLine("Here is a list of current reservations: ");
+                            WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}", "Name", "Subtotal", "Tax", "Grand Total");
 
-                            WriteLine("Would you like to view another reservation? y/n");
-                            fdChoice = Convert.ToChar(ReadLine());
+                            foreach (Reservation r in reservation)
+                            {
+                                WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}", r.name, r.subTotal.ToString("C"), r.taxRate.ToString("C"), r.totalCost.ToString("C"));
+
+                            }
+                        }//end if choice2
+                        else
+                        {
+                            WriteLine("Invalid Selection");
                         }
-                    }
-                    WriteLine("What would you like to do?");
-                    WriteLine("1. Create a new reservation\n2. View current reservations\n3. Change Users");
-                    fdChoice = Convert.ToInt32(ReadLine());
-                    if(fdChoice== 3)
-                    {
-                        WriteLine("Please Select a User: \n");
-                        WriteLine("1. Front Desk \n2. Admin");
-                        userType = Convert.ToInt32(ReadLine());
-                    }
-                    
-                }
-                
-            }
-            else if (userType == 2)
-            {
-                WriteLine("Password: \n");
-                string adminPassword = ReadLine();
-                if (adminPassword == "Rock456")
+                    }//end if fdPassword=="you123"
+
+                }//end if usertype==1
+                else if (userType == 2)
                 {
-                    //Admin
-                    WriteLine("What would you like to do?");
-                    WriteLine("1. View reservations\n2. Edit reservation\n3. Complete End of Day process");
-                    int adminChoice = Convert.ToInt32(ReadLine());
-
-                    if(adminChoice == 1)
+                    char adminControl = 'y';
+                    while(adminControl== 'y')
                     {
-                        int counter;
-                        WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}", "Name", "Subtotal", "Tax", "Grand Total");
-                        foreach (Reservation r in reservation)
+                        WriteLine("Would you like to:\n1. View a reservation\n2. Modify a reservation");
+                        int modChoice = Convert.ToInt32(ReadLine());
+
+                        if (modChoice == 1)
                         {
-                            counter = 0;
-                            WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}{4,-20}", counter, r.name, r.subTotal.ToString("C"), r.taxRate.ToString("C"), r.totalCost.ToString("C"));
-                            counter++;
-                        }
-                        WriteLine("Which reservation would you like to view?");
-                        //output the selected reservation here
-                        WriteLine("What would you like to do?");
-                        WriteLine("1. View reservations\n2. Edit reservation\n3. Complete End of Day process");
-                        adminChoice = Convert.ToInt32(ReadLine());
-                    }
-                    else if(adminChoice == 2)
-                    {
-                        WriteLine("Which reservation would you like to edit?");
-                        //select reservation to edit
-                        //edit reservation
-
-                        WriteLine("What would you like to do?");
-                        WriteLine("1. View reservations\n2. Edit reservation\n3. Complete End of Day process");
-                        adminChoice = Convert.ToInt32(ReadLine());
-                    }
-                    else if(adminChoice == 3)
-                    {
-                        int counter;
-                        foreach (Reservation r in reservation)
+                            int viewChoice = 0;
+                            WriteLine("Please enter the number of the reservation you want to view.");
+                            for (int z = 0; z < reservation.Count; z++)
+                            {
+                                WriteLine(z + 1 + " " + reservation[z].name);
+                            }
+                            viewChoice = Convert.ToInt32(ReadLine());
+                            WriteLine("{0,-10}{1,-10}{2,-10}{3,-10}{4,-10}{5,-10}{6,10}", reservation[viewChoice - 1].name, reservation[viewChoice - 1].address, reservation[viewChoice - 1].phone, reservation[viewChoice - 1].email, reservation[viewChoice - 1].typeRoom, reservation[viewChoice - 1].typeExtras, reservation[viewChoice - 1].DurationDays);
+                        }//endmodChoice1
+                        else if (modChoice == 2)
                         {
-                            counter = 0;
-                            WriteLine("{0,-10}{1,-10}{2,-20}{3,-20}{4,-20}", counter, r.name, r.subTotal.ToString("C"), r.taxRate.ToString("C"), r.totalCost.ToString("C"));
-                            counter++;
-                            //sum the totals of all reservations and display out.
-                        }
-                    }
-                    else
-                    {
-                        WriteLine("Please enter a valid selection.");
-                        WriteLine("What would you like to do?");
-                        WriteLine("1. View reservations\n2. Edit reservation\n3. Complete End of Day process");
-                        adminChoice = Convert.ToInt32(ReadLine());
-                    }
+                            WriteLine("Please enter the number of the reservation you want to modify.");
+                            for (int z = 0; z < reservation.Count; z++)
+                            {
+                                WriteLine(z + 1 + " " + reservation[z].name);
 
+                            }
+                            int editChoice = Convert.ToInt32(ReadLine());
+                            WriteLine("{0,-10}{1,-10}{2,-10}{3,-10}{4,-10}{5,-10}{6,10}", reservation[editChoice - 1].name, reservation[editChoice - 1].address, reservation[editChoice - 1].phone, reservation[editChoice - 1].email, reservation[editChoice - 1].typeRoom, reservation[editChoice - 1].typeExtras, reservation[editChoice - 1].DurationDays);
 
+                            WriteLine("Which part of the reservation would you like to modify?");
+                            WriteLine("1. Name\n2. Address\n3. Phone Number\n4. Email Address\n5. Room Type\n6. Extras\n7. Stay Duration");
+                            int resChange = Convert.ToInt32(ReadLine());
+
+                            switch (resChange)
+                            {
+                                case 1:
+                                    WriteLine("What is the correct name for this reservation?");
+                                    string newName = ReadLine();
+                                    reservation[editChoice-1].name= newName;
+                                    break;
+                                case 2:
+                                    WriteLine("What is the correct address for this reservation?");
+                                    string newAddress = ReadLine();
+                                    reservation[editChoice - 1].address = newAddress;
+                                    break;
+                                case 3:
+                                    WriteLine("What is the correct phone number for this reservation?");
+                                    string newPhone = ReadLine();
+                                    reservation[editChoice - 1].phone = newPhone;
+                                    break;
+                                case 4:
+                                    WriteLine("What is the correct email address for this reservation?");
+                                    string newEmail = ReadLine();
+                                    reservation[editChoice - 1].email = newEmail;
+                                    break;
+                                case 5:
+                                    WriteLine("What is the correct room type for this reservation?");
+                                    int newRoom = Convert.ToInt32(ReadLine());
+                                    reservation[editChoice - 1].typeRoom = newRoom;
+                                    break;
+                                case 6:
+                                    WriteLine("What is the correct type of extra for this reservation?");
+                                    int newExtra = Convert.ToInt32(ReadLine());
+                                    reservation[editChoice - 1].typeExtras = newExtra;
+                                    break;
+                                case 7:
+                                    WriteLine("What is the correct duration for this reservation?");
+                                    int newDuration = Convert.ToInt32(ReadLine());
+                                    reservation[editChoice - 1].DurationDays = newDuration;
+                                    break;
+                            }//endswitch
+                        }//endif modchoice 2
+
+                    }WriteLine("Would you like to do view or modify additional reservations? y/n");
+                    adminControl = Convert.ToChar(ReadLine());
                 }
                 else
                 {
-                    WriteLine("You have entered an incorrect password. Please try again.");
-                    WriteLine("Password: \n");
-                    adminPassword = ReadLine();
+                    WriteLine("Invalid Selection.");
                 }
 
-            }
-            else
-            {
-                WriteLine("Please make a valid selection.");
-                WriteLine("1. Front Desk \n2. Admin");
-                userType = Convert.ToInt32(ReadLine());
+                WriteLine("Back to menu? y/n");
+              
+            }//endwhile
 
-            }
-
-            //from video on reading CSVs
-            //char moreItems = 'y';
-            //int counter = 0;          //not sure if we need to use a counter or not in actual program, but good to have just in case. 
-            //while(moreItems == 'y') 
-            //{
-            //  WriteLine(Let's get the items for item{0}", counter+1);
-            //create a method call for collecting order
-            //  collectOrder(ref orders); 
-            //pass this by reference
-            //  counter ++;
-            //writeline("would you like to continue y/n");
-            //  moreItems = convert.toChar(readLine());
-            //}
            
-            //to show out orders, inside of the main, we are using a for loop to show out each order in the list.
-            //Can we turn this into a module to be used by Front Desk and Admin? 
-            //We also need to decide where an appropriate place for this is. First iteration is living in the frontDesk() to make sure it works. 
 
             ReadKey();
+                    
         }//end main
 
-        public static void frontDesk()
-        {
-            //Front desk will enter Name, Address, phone, email, room type, extras, and length of stay
-            //use object data for menus
-            //View existing reservations, but can not update, only admin can update
-            //In the view it should show subtotal, tax (6%), and grand total for the room.
-            //Loop until done or need to switch users
-
-            
-
-            List<Reservation> reservation = new List<Reservation>();
-            char moreReservs = 'y';
-            int counter = 0;
-
-            WriteLine("What would you like to do?");
-            WriteLine("1. Create a new reservation\n2. View current reservations");
-            int fdChoice = Convert.ToInt32(ReadLine());
-
-            while (moreReservs == 'y')
-            {
-                //The example line in the video was
-                //WriteLine("Let's get the items for item {0}"), counter ++1
-                WriteLine("Please make your reservation selection", counter + 1); //increase the counter by one on this loop
-
-                //create the method call for collect order - in this case for choosing room, possibly making reservation - double check this!!
-                MakeReservation(ref reservation);
-
-                WriteLine("Would you like to make another reservation? y/n");
-                moreReservs = Convert.ToChar(ReadLine());
-
-            }
-            WriteLine("What would you like to do?");
-            WriteLine("1. Create a new reservation\n2. View current reservations");
-            fdChoice = Convert.ToInt32(ReadLine());
-
-           
-
-
-
-
-
-
-            //don't forget to add a heading before this output, wherever it ends up
-            //Hopefully we can make this the View module, but that may or may not be possible.
-            //If not, use a decision and variable to fork this off
-
-
-
-
-        }
-        public static void Admin()
-        {
-            //able to see resevations and select one to view
-            //Can update any part of reservation
-            //At end of day, print all reservations and show grand total of everything
-            //Loop until admin is done and then return to main menu.
-            
-
-        }
-
-        public static void MakeReservation(ref List<Reservation> r )
+        public static void MakeReservation(ref List<Reservation> r)
         {
 
             //Here is where we are reading in a file
@@ -260,7 +189,7 @@ namespace ReservationsProgram
             string email = ReadLine();
             WriteLine("Room Type: ");
             //to print out a list of these objects, we can use a for each loop
-            foreach(RoomType rt in listOfRoomTypes)
+            foreach (RoomType rt in listOfRoomTypes)
             {
                 WriteLine($"{rt.RoomTypeID}\t{rt.RoomTypeName}\t{rt.RoomView}\t{rt.RoomCost}");
             }
@@ -269,9 +198,9 @@ namespace ReservationsProgram
             string roomTypeSelect = listOfRoomTypes[roomIdSelect - 1].RoomTypeName;//this is the type of room, string name form
             string roomViewSelect = listOfRoomTypes[roomIdSelect - 1].RoomView;
             double roomCostSelect = listOfRoomTypes[roomIdSelect - 1].RoomCost;//Cost of room to use for calculations
-                        
+
             WriteLine("Extras: ");
-            foreach(Extras ex in listOfExtras)
+            foreach (Extras ex in listOfExtras)
             {
                 WriteLine($"{ex.ExtrasID}\t{ex.ExtrasName}\t{ex.ExtrasCost}");
             }
@@ -279,7 +208,7 @@ namespace ReservationsProgram
             int extraIdSelect = Convert.ToInt32(ReadLine());//this is the extra ID number that the user chooses
             string extraNameSelect = listOfExtras[extraIdSelect - 1].ExtrasName;
             double extraCostSelect = listOfExtras[extraIdSelect - 1].ExtrasCost;//Cost of extra to use for calculations
-            
+
             WriteLine("Duration of Stay: ");
             int durationStay = Convert.ToInt32(ReadLine());
 
@@ -290,8 +219,8 @@ namespace ReservationsProgram
             double totalCost = (taxRate * subTotal) + subTotal;
 
             r.Add(new Reservation(name, address, phone, email, roomIdSelect, extraIdSelect, durationStay, taxRate, subTotal, totalCost));
-                                   
-            
+
+
         }//method
 
         public static void modifyReservation(ref Reservation m)
@@ -347,6 +276,6 @@ namespace ReservationsProgram
 
             }//switch
 
-        }//method        
-    }
+        }//method
+    } 
 }
